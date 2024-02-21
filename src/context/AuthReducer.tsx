@@ -35,6 +35,13 @@ export const authReducer = (state:AuthState,action:AuthAction): AuthState =>{
                 ...state,
                 errorMessage: ''
             };
+            case 'logout':
+        case 'notAuthenticated':
+            return {
+                ...state,
+                status: 'not-authenticated',
+                user: null
+            }
         default:
             return state;
     }
