@@ -11,13 +11,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 interface Props extends StackScreenProps<any, any> {}
 
 const IPhone1415ProMax3 = ({ navigation }: Props) => {
-  const { logOut } = React.useContext(AuthContext);
+  const { logOut,user } = React.useContext(AuthContext);
   const onLogout = () => {
     console.log("cerrando sesion");
     logOut();
   };
   return (
     <View style={styles.iphone1415ProMax4}>
+      <Text style={styles.usuario}>{user?.correo}</Text>
       <LinearGradient
         style={[styles.wrapper, styles.frameLayout]}
         locations={[0, 1]}
@@ -212,9 +213,16 @@ Atrasadas`}</Text>
 };
 
 const styles = StyleSheet.create({
+  usuario:{
+    textAlign: "center",
+    color: Color.colorBlack,
+    fontFamily: FontFamily.interRegular,
+    fontSize: FontSize.size_sm,
+    top:60
+  },
   button: {
     position: 'absolute',
-    top:800,
+    top:850,
     width:'100%',
     alignSelf: 'center',
     textAlign:'center',
