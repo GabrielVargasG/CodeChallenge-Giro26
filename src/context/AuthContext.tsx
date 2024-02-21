@@ -7,7 +7,7 @@ import {
   RegisterData,
   AuthState,
 } from "../interfaces/Interfaces";
-import { authReducer } from "./AuthReducer";
+import { authReducer } from "./authReducer";
 
 type AuthContextProps = {
   errorMessage: string;
@@ -22,7 +22,7 @@ type AuthContextProps = {
 const authInicialState: AuthState = {
   status: "not-authenticated",
   user: null,
-  errorMessage: "",
+  errorMessage: '',
 };
 
 export const AuthContext = createContext({} as AuthContextProps);
@@ -37,12 +37,12 @@ export const AuthProvider = ({ children }: any) => {
     //     password,
     //   });
       // console.log(res.data)
-      dispatch({
-        type: "signUp",
-        payload: {
-          user: data.usuario,
-        },
-      });
+    //   dispatch({
+    //     type: "signUp",
+    //     payload: {
+    //       user: data.usuario,
+    //     },
+    //   });
     } catch (error: any) {
       // console.log(...error.response.data.errors[0].msg
       // console.log(error.response.data.msg)

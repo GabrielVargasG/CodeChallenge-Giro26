@@ -1,14 +1,14 @@
 import { Usuario } from '../interfaces/Interfaces';
 import { AuthState } from '../interfaces/Interfaces';
 
-type AuthAction = 
+export type AuthAction = 
     | { type: 'signUp', payload: { user: Usuario } }
     | { type: 'addError', payload: string }
     | { type: 'removeError' }
     | { type: 'notAuthenticated' }
     | { type: 'logout' }
 
-export const authReducer = (state:AuthState,action:AuthAction) =>{
+export const authReducer = (state:AuthState,action:AuthAction): AuthState =>{
     switch(action.type){
         case 'signUp':
             return {
