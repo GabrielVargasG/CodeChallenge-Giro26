@@ -1,13 +1,28 @@
 import * as React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
+import { AuthContext } from "../src/context/AuthContext";
+import { TextInput } from "react-native-gesture-handler";
 
-const LogIn = () => {
-  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+interface Props extends StackScreenProps<any, any> {}
 
+const LogIn = ({ navigation }: Props) => {
+  const { signUp,actualizar } = React.useContext(AuthContext);
+  const [email, onChangeText1] = React.useState("");
+  const [password, onChangeText2] = React.useState("");
+  React.useEffect(() => {
+    
+    actualizar();
+    
+  }, [])
+  
+  const onRegister = () => {
+    // console.log({email, password});
+    signUp({ correo: email, password });
+  };
   return (
     <View style={styles.iphone1415ProMax3}>
       <View
@@ -46,7 +61,7 @@ const LogIn = () => {
       <Text style={[styles.apellido, styles.nombreTypo]}>Apellido</Text>
       <Pressable
         style={[styles.rectanglePressable, styles.rectangleChildLayout]}
-        onPress={() => navigation.navigate("IPhone1415ProMax3")}
+        onPress={onRegister}
       />
       <Text style={[styles.registrar, styles.correoTypo]}>REGISTRAR</Text>
       <Image
@@ -54,11 +69,50 @@ const LogIn = () => {
         contentFit="cover"
         source={require("../assets/giro26-3.png")}
       />
+      <TextInput
+        editable
+        maxLength={40}
+        onChangeText={(text) => onChangeText1(text)}
+        value={email}
+        numberOfLines={1}
+        keyboardType="email-address"
+        placeholder="example@example.com"
+        autoCapitalize="none"
+        autoCorrect={false}
+        style={[styles.email]}
+      />
+      <TextInput
+        editable
+        autoCapitalize="none"
+        maxLength={80}
+        placeholder="**********"
+        onChangeText={(text) => onChangeText2(text)}
+        value={password}
+        secureTextEntry={true}
+        style={[styles.password,]}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  email: {
+    top: 315,
+    width: 300,
+    height: 54,
+    backgroundColor: Color.colorGainsboro_200,
+    borderRadius: Border.br_81xl,
+    paddingLeft: 20,
+    left: 68,
+  },
+  password: {
+    top: 600,
+    width: 300,
+    backgroundColor: Color.colorGainsboro_200,
+    borderRadius: Border.br_81xl,
+    paddingLeft: 20,
+    left: 68,
+  },
   rectangleChildLayout: {
     height: 54,
     width: 300,

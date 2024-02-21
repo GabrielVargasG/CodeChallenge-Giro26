@@ -9,6 +9,7 @@ interface Props extends StackScreenProps<any, any> {}
 
 const Usuarios = ({ navigation }: Props) => {
   const { users } = React.useContext(AuthContext);
+  
 
   return (
     <SafeAreaView style={styles.container}>
