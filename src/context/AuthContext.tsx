@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useState } from "react";
 
 import * as FileSystem from "expo-file-system";
 import * as SQLite from "expo-sqlite";
@@ -10,6 +10,7 @@ import { authReducer } from "./authReducer";
 type AuthContextProps = {
   errorMessage: string;
   user: Usuario | null;
+  users: Usuario[];
   status: "checking" | "authenticated" | "not-authenticated";
   //   signUp: ({ correo, nombre, password }: RegisterData) => void;
   signIn: (logginData: LoginData) => void;
@@ -22,12 +23,12 @@ const authInicialState: AuthState = {
   user: null,
   errorMessage: "",
 };
-const db = SQLite.openDatabase("db.testDb");
+const db = SQLite.openDatabase("db.db");
 export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(authReducer, authInicialState);
-
+  const [users, setUsers] = useState<Usuario[]>([]);
   React.useEffect(() => {
     console.log("Ejecutando useEffect...");
     db.transaction((tx) => {
@@ -43,14 +44,17 @@ export const AuthProvider = ({ children }: any) => {
     // iniciar();
     db.transaction(
         (tx) => {
-            tx.executeSql(
+          tx.executeSql(
             `INSERT INTO usuarios (correo, password) VALUES (?, ?);`,
             ["usuario1@example.com", "password1"],
           );
-          tx.executeSql("select * from items", [], (_, { rows }) =>
-            console.log(JSON.stringify(rows))
+    
+          tx.executeSql(
+            `INSERT INTO usuarios (correo, password) VALUES (?, ?);`,
+            ["usuario2@example.com", "password2"],
           );
-        }
+        },
+        () => console.log('Transacción completada exitosamente')
       );
 
     console.log("Usuarios agregados correctamente.");
@@ -59,7 +63,8 @@ export const AuthProvider = ({ children }: any) => {
           "SELECT * FROM usuarios",
           [],
           (_, { rows: { _array } }) => {
-            console.log(_array); // Imprime los usuarios en la consola
+            console.log(_array);
+            setUsers(_array);
           }
         );
       });
@@ -129,6 +134,7 @@ export const AuthProvider = ({ children }: any) => {
     <AuthContext.Provider
       value={{
         ...state,
+        users,       
         // signUp,
         signIn,
         logOut,
