@@ -27,6 +27,7 @@ import IPhone1415ProMax20 from "../screens/IPhone1415ProMax20";
 import IPhone1415ProMax21 from "../screens/IPhone1415ProMax21";
 import IPhone1415ProMax22 from "../screens/IPhone1415ProMax22";
 import IPhone1415ProMax23 from "../screens/IPhone1415ProMax23";
+import Usuarios from "../screens/Usuarios";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,7 @@ export const Navegator = () => {
             component={IPhone1415ProMax2}
           />
           <Stack.Screen name="LogIn" component={LogIn} />
+          <Stack.Screen name="Usuarios" component={Usuarios} />
           <Stack.Screen name="SignUp" component={SingUp} />
         </>
       ) : (
