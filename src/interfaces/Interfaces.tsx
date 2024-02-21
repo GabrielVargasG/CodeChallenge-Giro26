@@ -9,14 +9,12 @@ export interface LoginData {
     password: string;
 }
 
+export interface LoginResponse {
+    usuario: Usuario;
+}
 export interface RegisterData {
     correo:   string;
     password: string;
-    nombre:   string;
-}
-
-export interface LoginResponse {
-    usuario: Usuario;
 }
 
 export interface AuthState {
