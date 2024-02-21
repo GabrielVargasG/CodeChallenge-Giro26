@@ -30,6 +30,11 @@ export const authReducer = (state:AuthState,action:AuthAction) =>{
                 status: 'not-authenticated',
                 errorMessage: action.payload
             }
+        case 'removeError':
+            return {
+                ...state,
+                errorMessage: ''
+            };
         default:
             return state;
     }
