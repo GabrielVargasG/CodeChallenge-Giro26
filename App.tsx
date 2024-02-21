@@ -1,9 +1,8 @@
-const Stack = createNativeStackNavigator();
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import IPhone1415ProMax from "./screens/IPhone1415ProMax";
-import IPhone1415ProMax1 from "./screens/IPhone1415ProMax1";
+import LogIn from "./screens/LogIn";
+import SingUp from "./screens/Registro";
 import IPhone1415ProMax2 from "./screens/IPhone1415ProMax2";
 import IPhone1415ProMax3 from "./screens/IPhone1415ProMax3";
 import IPhone1415ProMax4 from "./screens/IPhone1415ProMax4";
@@ -39,8 +38,8 @@ import IPhone1415ProMax21 from "./screens/IPhone1415ProMax21";
 import IPhone1415ProMax22 from "./screens/IPhone1415ProMax22";
 import IPhone1415ProMax23 from "./screens/IPhone1415ProMax23";
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
@@ -59,15 +58,17 @@ const App = () => {
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen
-              name="IPhone1415ProMax"
-              component={IPhone1415ProMax}
+              name="LogIn"
+              component={LogIn}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="IPhone1415ProMax1"
-              component={IPhone1415ProMax1}
+              name="SignUp"
+              component={SingUp}
               options={{ headerShown: false }}
             />
+
+
             <Stack.Screen
               name="IPhone1415ProMax2"
               component={IPhone1415ProMax2}
