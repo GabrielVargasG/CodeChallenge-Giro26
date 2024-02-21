@@ -31,7 +31,6 @@ import * as SQLite from "expo-sqlite";
 import { Asset } from "expo-asset";
 
 async function openDatabase(
-  pathToDatabaseFile: string
 ): Promise<SQLite.WebSQLDatabase> {
   if (
     !(await FileSystem.getInfoAsync(FileSystem.documentDirectory + "SQLite"))
@@ -50,7 +49,7 @@ async function openDatabase(
 
 async function createTables() {
   try {
-    const db = await openDatabase("myDatabaseName.db");
+    const db = await openDatabase();
     await db.transaction(async (tx) => {
       // Consulta SQL para crear la tabla de usuarios
       await tx.executeSql(
@@ -85,15 +84,38 @@ const App = () => {
       console.log("Tablas creadas correctamente.");
       await agregarUsuarios(); // Agrega usuarios después de crear las tablas
     console.log("Usuarios agregados correctamente.");
+    comprobarUsuarios();
       setHideSplashScreen(true);
       console.log("Se oculta la pantalla de inicio.");
     } catch (error) {
       console.error("Error al inicializar la aplicación:", error);
     }
   }
+
+
+  async function comprobarUsuarios() {
+    try {
+      // Abre la base de datos
+      const db = await openDatabase();
+      
+      // Inicia una transacción
+      await db.transaction(tx => {
+        tx.executeSql(
+          'SELECT * FROM usuarios',
+          [],
+          (_, { rows: { _array } }) => {
+            console.log(_array); // Imprime los usuarios en la consola
+          }
+        );
+      });
+    } catch (error) {
+      console.error('Error al comprobar usuarios:', error);
+    }
+  }
+  
   async function agregarUsuarios() {
     try {
-      const db = await openDatabase("myDatabaseName.db");
+      const db = await openDatabase();
       await db.transaction(async (tx) => {
         // Agregar usuario 1
         await tx.executeSql(
