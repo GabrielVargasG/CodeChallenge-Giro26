@@ -4,7 +4,7 @@ import * as FileSystem from "expo-file-system";
 import * as SQLite from "expo-sqlite";
 import { Asset } from "expo-asset";
 
-import { Usuario, LoginData, AuthState } from "../interfaces/Interfaces";
+import { Usuario, LoginData, AuthState, RegisterData } from '../interfaces/Interfaces';
 import { authReducer } from "./authReducer";
 
 type AuthContextProps = {
@@ -14,6 +14,8 @@ type AuthContextProps = {
   status: "checking" | "authenticated" | "not-authenticated";
   //   signUp: ({ correo, nombre, password }: RegisterData) => void;
   signIn: (logginData: LoginData) => void;
+  actualizar:() => void;
+  signUp:(RegisterData:RegisterData) => void;
   logOut: () => void;
   removeError: () => void;
 };
@@ -72,6 +74,19 @@ export const AuthProvider = ({ children }: any) => {
     console.log("Final useEffect...");
   }, []);
 
+  const actualizar=()=>{
+    db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT * FROM usuarios",
+          [],
+          (_, { rows: { _array } }) => {
+            console.log(_array);
+            setUsers(_array);
+          }
+        );
+      });
+  }
+
   const signIn = async ({ correo, password }: LoginData) => {
     try {
       console.log("iniciando sesion");
@@ -110,15 +125,31 @@ export const AuthProvider = ({ children }: any) => {
     }
   };
 
-  //   const signUp = async ({ correo, nombre, password }: RegisterData) => {
-  //     dispatch({
-  //         type:'signUp',
-  //         payload:{
-  //             token:res.data.token,
-  //             user:res.data.usuario,
-  //         }
-  //     });
-  //   };
+    const signUp = async ({ correo, password }: RegisterData) => {
+
+      await db.transaction(async (tx) => {
+        tx.executeSql(
+            `INSERT INTO usuarios (correo, password) VALUES (?, ?);`,
+            [correo, password],
+          );
+        tx.executeSql(
+          "SELECT * FROM usuarios WHERE correo = ? AND password = ?",
+          [correo, password],
+          (_, { rows }) => {
+            if (rows.length > 0) {
+              const user = rows.item(0);
+              dispatch({ type: "signUp", payload: { user } });
+              console.log("Inicio de sesión exitoso. Estado: authenticated");
+            } else {
+              dispatch({
+                type: "addError",
+                payload: "Credenciales incorrectas",
+              });
+            }
+          }
+        );
+      });
+    };
 
   const logOut = async () => {
     dispatch({ type: "logout" });
@@ -136,7 +167,9 @@ export const AuthProvider = ({ children }: any) => {
         ...state,
         users,       
         // signUp,
+        actualizar,
         signIn,
+        signUp,
         logOut,
         removeError,
       }}
