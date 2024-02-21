@@ -2,13 +2,13 @@ import * as React from "react";
 import { StyleSheet, View, Pressable, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "expo-image";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 
-const IPhone1415ProMax3 = () => {
-  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+interface Props extends StackScreenProps<any, any> {}
 
+const IPhone1415ProMax3 = ({ navigation }: Props) => {
   return (
     <View style={styles.iphone1415ProMax4}>
       <LinearGradient

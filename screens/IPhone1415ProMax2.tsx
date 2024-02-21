@@ -1,17 +1,17 @@
 import * as React from "react";
 import { Image } from "expo-image";
 import { StyleSheet, View, Pressable } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
 import { Color } from "../GlobalStyles";
 
-const IPhone1415ProMax2 = () => {
-  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+interface Props extends StackScreenProps<any, any> {}
 
+const IPhone1415ProMax2 = ({ navigation }: Props) => {
   return (
     <Pressable
       style={styles.iphone1415ProMax1}
-      onPress={() => navigation.navigate("IPhone1415ProMax1")}
+      onPress={() => navigation.navigate("LogIn")}
     >
       <Image
         style={styles.giro262Icon}
