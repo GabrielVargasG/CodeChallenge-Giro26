@@ -16,7 +16,12 @@ import { AuthContext } from "../src/context/AuthContext";
 interface Props extends StackScreenProps<any, any> {}
 
 const SingUp = ({ navigation }: Props) => {
-  const { signIn, errorMessage, removeError } =
+  React.useEffect(() => {
+    
+    actualizar();
+    
+  }, [])
+  const { signIn,actualizar, errorMessage, removeError } =
     React.useContext(AuthContext);
   React.useEffect(() => {
     if (errorMessage.length === 0) return;
