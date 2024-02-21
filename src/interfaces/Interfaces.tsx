@@ -1,7 +1,7 @@
 export interface Usuario {
-    uid: string;
-    nombre: string;
+    id: string;
     correo: string;
+    password: string;
 }
 
 export interface LoginData {
