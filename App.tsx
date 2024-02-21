@@ -39,7 +39,7 @@ import IPhone1415ProMax22 from "./screens/IPhone1415ProMax22";
 import IPhone1415ProMax23 from "./screens/IPhone1415ProMax23";
 
 import { createStackNavigator } from "@react-navigation/stack";
-import { AuthContext } from "./src/context/AuthContext";
+import { AuthContext, AuthProvider } from "./src/context/AuthContext";
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -56,6 +56,7 @@ const App = () => {
 
   return (
     <>
+    <AuthProvider>
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -189,6 +190,7 @@ const App = () => {
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
+      </AuthProvider>
     </>
   );
 };
