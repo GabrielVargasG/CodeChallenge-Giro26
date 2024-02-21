@@ -4,7 +4,15 @@ import React, { createContext, useReducer } from 'react';
 import { Usuario, LoginResponse, LoginData, RegisterData, AuthState } from '../interfaces/Interfaces';
 import { authReducer } from './AuthReducer';
 
-type AuthContextProps = {}
+type AuthContextProps = {
+    errorMessage: string;
+    user: Usuario | null;
+    status: 'checking' | 'authenticated' | 'not-authenticated';
+    signUp: ({correo,nombre,password}: RegisterData) => void;
+    signIn: (logginData:LoginData) => void;
+    logOut: () => void;
+    removeError: () => void;
+}
 
 const authInicialState: AuthState = {
     status:'checking',
