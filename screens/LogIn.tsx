@@ -1,5 +1,12 @@
 import * as React from "react";
-import { StyleSheet, View, Pressable, Text, Keyboard } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Pressable,
+  Text,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { Image } from "expo-image";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
@@ -10,23 +17,31 @@ import { AuthContext } from "../src/context/AuthContext";
 interface Props extends StackScreenProps<any, any> {}
 
 const SingUp = ({ navigation }: Props) => {
-
   const { signIn, errorMessage, removeError } = React.useContext(AuthContext);
+  React.useEffect(() => {
+    if (errorMessage.length === 0) return;
 
-  const [email, onChangeText] = React.useState("");
+    Alert.alert("Error", errorMessage, [
+      {
+        text: "Ok",
+        onPress: removeError,
+      },
+    ]);
+  }, [errorMessage]);
+
+  const [email, onChangeText1] = React.useState("");
   const [password, onChangeText2] = React.useState("");
   const onLogin = () => {
     // console.log({email, password});
-    Keyboard.dismiss();
     signIn({ correo: email, password });
-}
+  };
   return (
     <View style={styles.iphone1415ProMax2}>
       <View style={[styles.iphone1415ProMax2Child, styles.iphone1415Layout]} />
       <TextInput
         editable
         maxLength={40}
-        onChangeText={(text) => onChangeText(text)}
+        onChangeText={(text) => onChangeText1(text)}
         value={email}
         numberOfLines={1}
         keyboardType="email-address"
@@ -38,9 +53,10 @@ const SingUp = ({ navigation }: Props) => {
       <View style={[styles.iphone1415ProMax2Item, styles.iphone1415Layout]} />
       <TextInput
         editable
+        autoCapitalize="none"
         maxLength={80}
-        placeholder='**********'
-        onChangeText={(text) => onChangeText(text)}
+        placeholder="**********"
+        onChangeText={(text) => onChangeText2(text)}
         value={password}
         style={[styles.iphone1415ProMax2Item, styles.iphone1415Layout]}
       />
