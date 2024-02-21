@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View, Pressable, Text, Keyboard } from "react-native";
 import { Image } from "expo-image";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
@@ -10,10 +10,16 @@ import { AuthContext } from "../src/context/AuthContext";
 interface Props extends StackScreenProps<any, any> {}
 
 const SingUp = ({ navigation }: Props) => {
-  const { status } = React.useContext(AuthContext);
 
-  const [value, onChangeText] = React.useState("");
-  const [value2, onChangeText2] = React.useState("");
+  const { signIn, errorMessage, removeError } = React.useContext(AuthContext);
+
+  const [email, onChangeText] = React.useState("");
+  const [password, onChangeText2] = React.useState("");
+  const onLogin = () => {
+    // console.log({email, password});
+    Keyboard.dismiss();
+    signIn({ correo: email, password });
+}
   return (
     <View style={styles.iphone1415ProMax2}>
       <View style={[styles.iphone1415ProMax2Child, styles.iphone1415Layout]} />
@@ -21,7 +27,7 @@ const SingUp = ({ navigation }: Props) => {
         editable
         maxLength={40}
         onChangeText={(text) => onChangeText(text)}
-        value={value}
+        value={email}
         numberOfLines={1}
         keyboardType="email-address"
         placeholder="example@example.com"
@@ -35,12 +41,13 @@ const SingUp = ({ navigation }: Props) => {
         maxLength={80}
         placeholder='**********'
         onChangeText={(text) => onChangeText(text)}
-        value={value}
+        value={password}
         style={[styles.iphone1415ProMax2Item, styles.iphone1415Layout]}
       />
       <Pressable
         style={[styles.iphone1415ProMax2Inner, styles.rectangleViewLayout]}
-        onPress={() => navigation.navigate("IPhone1415ProMax3")}
+        // onPress={() => navigation.navigate("IPhone1415ProMax3")}
+        onPress={onLogin}
       />
       <Image
         style={[styles.ellipseIcon, styles.ellipseIconLayout]}
