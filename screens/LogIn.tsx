@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
-import { useNavigation, ParamListBase } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 import { TextInput } from "react-native-gesture-handler";
 import { AuthContext } from "../src/context/AuthContext";
@@ -17,7 +16,8 @@ import { AuthContext } from "../src/context/AuthContext";
 interface Props extends StackScreenProps<any, any> {}
 
 const SingUp = ({ navigation }: Props) => {
-  const { signIn, errorMessage, removeError } = React.useContext(AuthContext);
+  const { signIn, errorMessage, removeError } =
+    React.useContext(AuthContext);
   React.useEffect(() => {
     if (errorMessage.length === 0) return;
 
@@ -48,7 +48,7 @@ const SingUp = ({ navigation }: Props) => {
         placeholder="example@example.com"
         autoCapitalize="none"
         autoCorrect={false}
-        style={[styles.iphone1415ProMax2Child, styles.iphone1415Layout]}
+        style={[styles.email, styles.iphone1415Layout]}
       />
       <View style={[styles.iphone1415ProMax2Item, styles.iphone1415Layout]} />
       <TextInput
@@ -58,7 +58,8 @@ const SingUp = ({ navigation }: Props) => {
         placeholder="**********"
         onChangeText={(text) => onChangeText2(text)}
         value={password}
-        style={[styles.iphone1415ProMax2Item, styles.iphone1415Layout]}
+        secureTextEntry={true}
+        style={[styles.password, styles.iphone1415Layout]}
       />
       <Pressable
         style={[styles.iphone1415ProMax2Inner, styles.rectangleViewLayout]}
@@ -104,6 +105,15 @@ const SingUp = ({ navigation }: Props) => {
         contentFit="cover"
         source={require("../assets/giro26-3.png")}
       />
+
+      <Pressable style={[styles.users, styles.contraseaTypo]}
+      onPress={() => navigation.navigate("Usuarios")}>
+        <Text>Usuarios</Text>
+      </Pressable>
+
+      {/* <Text style={[styles.users, styles.contraseaTypo]}>
+        <Text>{user.correo}</Text>
+      </Text> */}
     </View>
   );
 };
@@ -137,7 +147,6 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   contraseaTypo: {
-    textAlign: "left",
     fontFamily: FontFamily.interRegular,
     fontSize: FontSize.size_sm,
     position: "absolute",
@@ -154,6 +163,24 @@ const styles = StyleSheet.create({
     height: 54,
     backgroundColor: Color.colorGainsboro_200,
     borderRadius: Border.br_81xl,
+    left: 68,
+  },
+  email: {
+    top: 315,
+    width: 300,
+    height: 54,
+    backgroundColor: Color.colorGainsboro_200,
+    borderRadius: Border.br_81xl,
+    paddingLeft: 20,
+    left: 68,
+  },
+  password: {
+    top: 424,
+    width: 297,
+    height: 54,
+    backgroundColor: Color.colorGainsboro_200,
+    borderRadius: Border.br_81xl,
+    paddingLeft: 20,
     left: 68,
   },
   iphone1415ProMax2Item: {
@@ -215,6 +242,18 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontFamily: FontFamily.interRegular,
     fontSize: FontSize.size_sm,
+  },
+  users: {
+    top: 60,
+    color: Color.colorDodgerblue,
+    textAlign: "center",
+    alignSelf:'center',
+    fontFamily: FontFamily.interRegular,
+    fontSize: FontSize.size_sm,
+    borderColor: Color.colorBlack,
+    borderWidth:1,
+    padding:5,
+    borderRadius:10,
   },
   giro263Icon: {
     top: 103,
