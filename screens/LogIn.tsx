@@ -5,10 +5,13 @@ import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 import { TextInput } from "react-native-gesture-handler";
+import { AuthContext } from "../src/context/AuthContext";
 
 interface Props extends StackScreenProps<any, any> {}
 
 const SingUp = ({ navigation }: Props) => {
+  const { status } = React.useContext(AuthContext);
+
   const [value, onChangeText] = React.useState("");
   const [value2, onChangeText2] = React.useState("");
   return (
