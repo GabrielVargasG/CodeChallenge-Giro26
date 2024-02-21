@@ -8,8 +8,8 @@ type AuthContextProps = {}
 
 const authInicialState: AuthState = {
     status:'checking',
-    errorMessage:'',
     user:null,
+    errorMessage:'',
 }
 
 export const AuthContext = createContext({} as AuthContextProps);
@@ -18,11 +18,19 @@ export const AuthProvider = ({ children }: any)=> {
 
     const [ state, dispatch ] = useReducer( authReducer, authInicialState);
 
-    const signIn= async( {correo,password}:LoginData) => {}
+    const signIn= async( {correo,password}:LoginData) => {
+
+    }
 
     const signUp= async({correo,nombre,password}:RegisterData) => {}
 
     const logOut= async() => {}
+
+    const removeError=()=>{
+        dispatch({
+            type:'removeError'
+        })
+    }
 
     return (
         <AuthContext.Provider value={{
@@ -30,9 +38,9 @@ export const AuthProvider = ({ children }: any)=> {
             signUp,
             signIn,
             logOut,
+            removeError
         }}>
             { children }
         </AuthContext.Provider>
     )
-
 }
