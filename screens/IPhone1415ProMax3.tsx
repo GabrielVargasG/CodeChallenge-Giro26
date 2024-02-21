@@ -5,10 +5,17 @@ import { Image } from "expo-image";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
+import { AuthContext } from "../src/context/AuthContext";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface Props extends StackScreenProps<any, any> {}
 
 const IPhone1415ProMax3 = ({ navigation }: Props) => {
+  const { logOut } = React.useContext(AuthContext);
+  const onLogout = () => {
+    console.log("cerrando sesion");
+    logOut();
+  };
   return (
     <View style={styles.iphone1415ProMax4}>
       <LinearGradient
@@ -192,11 +199,34 @@ Atrasadas`}</Text>
         contentFit="cover"
         source={require("../assets/corona-1.png")}
       />
+<View style={{paddingHorizontal:100}}>
+      <Pressable
+      style={styles.button}
+      onPress={onLogout}
+    >
+      <Text style={styles.text}>Cerrar sesión</Text>
+    </Pressable>
+    </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  button: {
+    position: 'absolute',
+    top:800,
+    width:'100%',
+    alignSelf: 'center',
+    textAlign:'center',
+    backgroundColor:Color.colorDodgerblue,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  text: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    textAlign:'center',
+  },
   frameLayout: {
     height: 148,
     width: 118,
@@ -376,9 +406,6 @@ const styles = StyleSheet.create({
   iphone1415ProMax4: {
     backgroundColor: Color.colorWhite,
     flex: 1,
-    height: 932,
-    overflow: "hidden",
-    width: "100%",
   },
 });
 
