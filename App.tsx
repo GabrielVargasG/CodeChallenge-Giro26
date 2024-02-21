@@ -38,11 +38,51 @@ import IPhone1415ProMax21 from "./screens/IPhone1415ProMax21";
 import IPhone1415ProMax22 from "./screens/IPhone1415ProMax22";
 import IPhone1415ProMax23 from "./screens/IPhone1415ProMax23";
 
+
+import * as FileSystem from 'expo-file-system';
+import * as SQLite from 'expo-sqlite';
+import { Asset } from 'expo-asset';
+
+async function openDatabase(pathToDatabaseFile: string): Promise<SQLite.WebSQLDatabase> {
+  if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
+    await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
+  }
+  await FileSystem.downloadAsync(
+    Asset.fromModule(require('./src/db.db')).uri,
+    FileSystem.documentDirectory + 'SQLite/myDatabaseName.db'
+  );
+  return SQLite.openDatabase('myDatabaseName.db');
+}
+
+
+
+async function createTables() {
+  try {
+    const db = await openDatabase('myDatabaseName.db');
+    await db.transaction(async (tx) => {
+      // Consulta SQL para crear la tabla de usuarios
+      await tx.executeSql(
+        `CREATE TABLE IF NOT EXISTS usuarios (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          correo TEXT NOT NULL UNIQUE,
+          password TEXT NOT NULL
+        );`
+      );
+
+    });
+    console.log('Tablas creadas correctamente.');
+  } catch (error) {
+    console.error('Error al crear las tablas:', error);
+  }
+}
+
+
 import { createStackNavigator } from "@react-navigation/stack";
 import { AuthContext, AuthProvider } from "./src/context/AuthContext";
 const Stack = createStackNavigator();
 
 const App = () => {
+  createTables();
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
 
   const [fontsLoaded, error] = useFonts({
