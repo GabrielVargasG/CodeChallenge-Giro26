@@ -39,6 +39,7 @@ import IPhone1415ProMax22 from "./screens/IPhone1415ProMax22";
 import IPhone1415ProMax23 from "./screens/IPhone1415ProMax23";
 
 import { createStackNavigator } from '@react-navigation/stack';
+import { AuthContext } from "./src/context/AuthContext";
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -51,12 +52,16 @@ const App = () => {
   if (!fontsLoaded && !error) {
     return null;
   }
+  const {status}=React.useContext(AuthContext);
+
 
   return (
     <>
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
+            (status !== 'authenticated') 
+              ? (
             <Stack.Screen
               name="LogIn"
               component={LogIn}
@@ -67,7 +72,7 @@ const App = () => {
               component={SingUp}
               options={{ headerShown: false }}
             />
-
+              ) :(
 
             <Stack.Screen
               name="IPhone1415ProMax2"
@@ -179,6 +184,7 @@ const App = () => {
               component={IPhone1415ProMax23}
               options={{ headerShown: false }}
             />
+            )
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
